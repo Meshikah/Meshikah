@@ -289,11 +289,11 @@ The record's hash chain is tamper-evident, not tamper-proof. The sensitive-data 
 
 | ID | Decision | Owner |
 |---|---|---|
-| Q-CLI-1 | Implementation language and packaging: Python package vs single binary | Product owner |
-| Q-CLI-2 | License model if commercialized (open core vs proprietary) | Product owner |
-| Q-CLI-3 | Which sensitive-data patterns ship by default, including health-record patterns | Security |
-| Q-CLI-4 | Whether the §6 gap commands join the package MVP | Product owner |
-| Q-CLI-5 | Whether signed commits for record changes are the default for Critical | Security |
+| Q-CLI-1 | Implementation language and packaging | **Decided:** Python, pipx and zip app (repo DEC-005) |
+| Q-CLI-2 | License model if commercialized | **Deferred** to roadmap 0.5 (repo DEC-006, Q-002) |
+| Q-CLI-3 | Default sensitive-data patterns | **Decided:** secrets and base personal data; health opt-in per pack (repo DEC-009) |
+| Q-CLI-4 | §6 gap commands in the MVP | **Decided:** yes, in 0.3 (repo DEC-008) |
+| Q-CLI-5 | Signed commits for record changes | **Decided:** mandatory for Critical cards, enforced in CI (repo DEC-010) |
 
 ## 16. Document history
 

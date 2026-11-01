@@ -26,6 +26,14 @@
 | `mshkh decide <KEY> <checkpoint> --approve/--reject --by "<name>"` | Records a human decision | `record.jsonl` |
 | `mshkh status [<KEY>]` | Shows the level, checkpoints, last event, and any blocked or overdue items | Nothing |
 
+Also in the MVP, from roadmap 0.3 ([DEC-008](../library/decisions/DEC-008-gap-commands-in-mvp.md)), with the same human-only controls as `decide`:
+
+| Command | Does | Writes |
+|---|---|---|
+| `mshkh decide <KEY> level --set <Level> --by "<name>"` | Confirms the card's level | `record.jsonl` (`level_confirmed`) |
+| `mshkh release <KEY> --deployed-ref <ref> --deployment-id <id> --env <name> --by "<name>"` | Records a release after Release is approved | `record.jsonl` (`released`) |
+| `mshkh correct <KEY> --supersedes <line> --text "…" --by "<name>"` | Corrects the record without editing it | `record.jsonl` (`correction`) |
+
 Later, not in the MVP: `promote` (draft a library promotion), `archive`, `metrics`, `policy` (allow/ask/deny answers for binding hooks), and a read-only MCP server.
 
 ## Exit codes
@@ -57,6 +65,9 @@ Later, not in the MVP: `promote` (draft a library promotion), `archive`, `metric
 
 ## Open decisions
 
-- Implementation language and packaging (single binary vs. a package manager install).
-- License model if commercialized.
-- Which sensitive-data patterns ship by default.
+- License model if commercialized: deferred to roadmap 0.5 ([DEC-006](../library/decisions/DEC-006-license-until-demo.md)).
+
+Decided:
+- Packaging: Python with `pipx` and a single-file zip app ([DEC-005](../library/decisions/DEC-005-cli-packaging.md)).
+- Default sensitive-data patterns: secrets, emails, phones, card numbers, CLABE/IBAN, CURP/RFC; health patterns opt-in per pack ([DEC-009](../library/decisions/DEC-009-sensitive-patterns.md)).
+- Commits changing a Critical card's record must be signed ([DEC-010](../library/decisions/DEC-010-signed-record-commits.md)).
