@@ -1,4 +1,4 @@
-# MSH-1 · Implement `mshkh` 0.2: `init`, `new`, `lint`
+# MSH-2 · Implement `mshkh` 0.2: `init`, `new`, `lint`
 
 - Level: Standard (proposed; a human confirms it)
 - Highest data class: Internal

@@ -1,4 +1,4 @@
-# Plan · MSH-1
+# Plan · MSH-2
 
 ## Approach
 Implement the three commands as small modules behind the existing argument parser, reusing `repo.py` for discovery. Templates are read from the repository (kernel `templates/` or the pack's `templates`), filled with simple token replacement, JSON-escaped for `.json` files.

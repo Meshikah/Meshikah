@@ -1,0 +1,10 @@
+{
+  "key": "MSH-1",
+  "title": "Scaffold the meshikah repository",
+  "level": "Light",
+  "data_class": "Internal",
+  "library": ["library/index.md", "docs/03-runtime.md"],
+  "source": [],
+  "may_change": ["work/MSH-1/evidence.md", "work/MSH-1/notes/*"],
+  "tests": ["cli/tests/test_mvp_contract.py"]
+}

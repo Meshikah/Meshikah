@@ -1,10 +1,10 @@
 {
-  "key": "MSH-1",
+  "key": "MSH-2",
   "title": "Implement mshkh 0.2: init, new, lint",
   "level": "Standard",
   "data_class": "Internal",
   "library": ["library/index.md", "docs/04-cli-mvp.md", "docs/03-runtime.md", "kernel/README.md"],
   "source": ["cli/src/mshkh/cli.py", "cli/src/mshkh/repo.py", "cli/src/mshkh/exitcodes.py", "cli/tests/test_mvp_contract.py"],
-  "may_change": ["cli/src/mshkh/*.py", "cli/tests/*.py", "work/MSH-1/evidence.md", "work/MSH-1/notes/*"],
+  "may_change": ["cli/src/mshkh/*.py", "cli/tests/*.py", "work/MSH-2/evidence.md", "work/MSH-2/notes/*"],
   "tests": ["cli/tests/test_mvp_contract.py"]
 }
