@@ -61,6 +61,15 @@ def _report_writes(args, results, notices, summary: str) -> int:
     return int(Exit.OK)
 
 
+def _counts(results, apply: bool) -> str:
+    skipped = sum(1 for s, _ in results if s.startswith("SKIP"))
+    if apply:
+        created = sum(1 for s, _ in results if s == "CREATE")
+        return f"applied: {created} created, {skipped} skipped"
+    would = sum(1 for s, _ in results if s == "WOULD CREATE")
+    return f"preview (use --apply to write): {would} would be created, {skipped} skipped"
+
+
 def cmd_init(args):
     root = (Path(args.repo) if args.repo else Path.cwd()).resolve()
     if not root.is_dir():
@@ -71,10 +80,7 @@ def cmd_init(args):
         config = yaml.safe_load((root / "meshikah.yaml").read_text(encoding="utf-8")) or {}
     files, notices = plan_init(root, config, args.with_config)
     results = write_files(root, files, args.apply)
-    created = sum(1 for s, _ in results if s == "CREATE")
-    skipped = sum(1 for s, _ in results if s.startswith("SKIP"))
-    mode = "applied" if args.apply else "preview (use --apply to write)"
-    return _report_writes(args, results, notices, f"init {mode}: {created} created, {skipped} skipped, root {root}")
+    return _report_writes(args, results, notices, f"init {_counts(results, args.apply)}, root {root}")
 
 
 def cmd_new(args):
@@ -88,11 +94,7 @@ def cmd_new(args):
     except NewError as exc:
         return _emit(args, Exit.INVALID_INPUT, f"{exc} Nothing written.")
     results = write_files(repo.root, files, args.apply)
-    created = sum(1 for s, _ in results if s == "CREATE")
-    skipped = sum(1 for s, _ in results if s.startswith("SKIP"))
-    mode = "applied" if args.apply else "preview (use --apply to write)"
-    return _report_writes(args, results, notices,
-                          f"new {args.key} ({level}, {data_class}) {mode}: {created} created, {skipped} skipped")
+    return _report_writes(args, results, notices, f"new {args.key} ({level}, {data_class}) {_counts(results, args.apply)}")
 
 
 def cmd_lint(args):

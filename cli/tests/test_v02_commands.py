@@ -127,3 +127,15 @@ def test_sensitive_ignores_ordinary_text(line):
 
 def test_lint_unknown_check_exits_2(repo):
     assert main(["lint", "--repo", str(repo), "--only", "nope"]) == Exit.INVALID_INPUT
+
+
+def test_new_preview_counts_files_that_would_be_created(repo, capsys):
+    before = files(repo)
+    assert main(["new", "ABC-10", "--title", "x", "--level", "Light", "--repo", str(repo)]) == Exit.OK
+    assert "6 would be created, 0 skipped" in capsys.readouterr().out
+    assert files(repo) == before
+
+
+def test_init_preview_counts_files_that_would_be_created(tmp_path, capsys):
+    assert main(["init", "--repo", str(tmp_path)]) == Exit.OK
+    assert "5 would be created, 0 skipped" in capsys.readouterr().out

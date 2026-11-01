@@ -1,0 +1,30 @@
+{
+  "key": "MSH-3",
+  "title": "Make the examples lint-clean",
+  "level": "Light",
+  "data_class": "Internal",
+  "library": [
+    "library/index.md",
+    "docs/03-runtime.md",
+    "examples/README.md",
+    "docs/04-cli-mvp.md"
+  ],
+  "source": [
+    "examples/demo-software/work/DEMO-1/context.json",
+    "examples/demo-finance/work/FIN-1/card.md",
+    "cli/src/mshkh/cli.py"
+  ],
+  "may_change": [
+    "examples/demo-software/src/sync/client.ts",
+    "examples/demo-software/test/sync/client.test.ts",
+    "examples/demo-software/work/DEMO-1/*",
+    "examples/demo-finance/work/FIN-1/*",
+    "work/MSH-3/evidence.md",
+    "work/MSH-3/notes/*",
+    "cli/src/mshkh/cli.py",
+    "cli/tests/test_v02_commands.py"
+  ],
+  "tests": [
+    "mshkh lint (in each example)"
+  ]
+}
