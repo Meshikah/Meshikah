@@ -1,7 +1,7 @@
 """Command-line entry point. MVP commands: init, new, lint, request, decide, status.
 
-Only guards are implemented in 0.1: repository discovery, key validation, and the
-human-only guard on `decide`. Everything else is a contract (docs/04-cli-mvp.md).
+Implemented in 0.2: init, new, lint (card MSH-2). request, decide and status keep only
+their guards until 0.3 (repository discovery, key validation, the human-only guard on `decide`).
 """
 
 from __future__ import annotations
@@ -14,6 +14,9 @@ from pathlib import Path
 
 from mshkh import __version__
 from mshkh.exitcodes import Exit
+from mshkh import lint as lint_mod
+from mshkh.init import plan_init
+from mshkh.new import NewError, plan_card, write_files
 from mshkh.repo import find_repo
 
 CHECKPOINTS = ["Scope", "Plan", "Review", "Accept", "Release", "Learn"]
@@ -47,9 +50,31 @@ def _is_human_context() -> bool:
     return sys.stdin is not None and sys.stdin.isatty()
 
 
+def _report_writes(args, results, notices, summary: str) -> int:
+    if getattr(args, "json", False):
+        return _emit(args, Exit.OK, summary, files=[{"status": s, "path": p} for s, p in results], notices=notices)
+    for note in notices:
+        print(f"NOTE    {note}")
+    for status, path in results:
+        print(f"{status:<14}{path}")
+    print(summary)
+    return int(Exit.OK)
+
+
 def cmd_init(args):
-    repo_hint = Path(args.repo) if args.repo else Path.cwd()
-    return _not_implemented(args, f"init (target: {repo_hint})")
+    root = (Path(args.repo) if args.repo else Path.cwd()).resolve()
+    if not root.is_dir():
+        return _emit(args, Exit.INVALID_INPUT, f"Target folder does not exist: {root}. Nothing written.")
+    config = {}
+    if (root / "meshikah.yaml").is_file():
+        import yaml
+        config = yaml.safe_load((root / "meshikah.yaml").read_text(encoding="utf-8")) or {}
+    files, notices = plan_init(root, config, args.with_config)
+    results = write_files(root, files, args.apply)
+    created = sum(1 for s, _ in results if s == "CREATE")
+    skipped = sum(1 for s, _ in results if s.startswith("SKIP"))
+    mode = "applied" if args.apply else "preview (use --apply to write)"
+    return _report_writes(args, results, notices, f"init {mode}: {created} created, {skipped} skipped, root {root}")
 
 
 def cmd_new(args):
@@ -58,7 +83,16 @@ def cmd_new(args):
         return err
     if not repo.valid_key(args.key):
         return _emit(args, Exit.INVALID_INPUT, f"Invalid key '{args.key}' (pattern {repo.key_pattern}). Nothing written.")
-    return _not_implemented(args, "new")
+    try:
+        files, notices, level, data_class = plan_card(repo, args.key, args.title, args.level, args.data_class, args.type)
+    except NewError as exc:
+        return _emit(args, Exit.INVALID_INPUT, f"{exc} Nothing written.")
+    results = write_files(repo.root, files, args.apply)
+    created = sum(1 for s, _ in results if s == "CREATE")
+    skipped = sum(1 for s, _ in results if s.startswith("SKIP"))
+    mode = "applied" if args.apply else "preview (use --apply to write)"
+    return _report_writes(args, results, notices,
+                          f"new {args.key} ({level}, {data_class}) {mode}: {created} created, {skipped} skipped")
 
 
 def cmd_lint(args):
@@ -67,7 +101,24 @@ def cmd_lint(args):
         return err
     if args.key and not repo.valid_key(args.key):
         return _emit(args, Exit.INVALID_INPUT, f"Invalid key '{args.key}'.")
-    return _not_implemented(args, "lint")
+    unknown = set(args.only or []) - set(lint_mod.ALL_CHECKS)
+    if unknown:
+        return _emit(args, Exit.INVALID_INPUT, f"Unknown check(s): {', '.join(sorted(unknown))}. Known: {', '.join(lint_mod.ALL_CHECKS)}.")
+    findings = lint_mod.Linter(repo, args.only).run(args.key)
+    code = lint_mod.exit_code(findings)
+    blocking = sum(1 for f in findings if f.blocking)
+    summary = f"lint: {blocking} blocking, {len(findings) - blocking} advisory"
+    if args.changed_only:
+        summary += " (--changed-only not implemented yet: checked everything)"
+    if getattr(args, "json", False):
+        print(json.dumps({"exit": int(code), "status": code.name.lower(), "message": summary,
+                          "findings": lint_mod.as_dicts(findings)}))
+        return int(code)
+    for f in findings:
+        where = f"{f.path}:{f.line}" if f.line else f.path
+        print(f"{'BLOCK' if f.blocking else 'WARN ':<5} {f.check:<12} {where}  {f.message}")
+    print(summary)
+    return int(code)
 
 
 def cmd_request(args):
