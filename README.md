@@ -41,7 +41,7 @@ REQUEST ──▶ WORK CARD (work/<KEY>/) ──appends──▶ RECORD (record.
 | [`examples/`](examples/) | Demo repositories with synthetic data only |
 | [`library/`, `work/`, `archive/`](library/index.md) | This repository's own development, run with MeshikahAI |
 
-This repository is **dogfooded**: its own work is tracked as cards in `work/`. Closed cards are in `archive/`: [`MSH-1`](archive/MSH-1/card.md) (the scaffold) and [`MSH-2`](archive/MSH-2/card.md) (`mshkh` 0.2: init, new, lint). The current card is [`MSH-3`](work/MSH-3/card.md) (lint-clean examples).
+This repository is **dogfooded**: its own work is tracked as cards in `work/`. Closed cards are in `archive/`: [`MSH-1`](archive/MSH-1/card.md) (the scaffold) [`MSH-2`](archive/MSH-2/card.md) (`mshkh` 0.2: init, new, lint) and [`MSH-3`](archive/MSH-3/card.md) (lint-clean examples). New cards start with `mshkh new`.
 
 ## Status
 
