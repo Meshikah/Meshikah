@@ -1,0 +1,37 @@
+{
+  "$id": "https://meshikah.ai/schemas/record-event.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeshikahAI record event",
+  "description": "One line of record.jsonl. Append-only and hash-chained. Human-only events must have a human actor.",
+  "type": "object",
+  "required": ["at", "card", "event", "by", "prev"],
+  "properties": {
+    "at": { "type": "string", "format": "date-time" },
+    "card": { "type": "string", "pattern": "^[A-Z][A-Z0-9]+-\\d+$" },
+    "event": { "enum": ["opened", "requested", "note", "blocked", "unblocked", "level_confirmed", "decided", "released", "correction"] },
+    "by": { "type": "string", "pattern": "^(human:[^\\s].*|agent:[a-z][a-z0-9-]*)$" },
+    "prev": { "oneOf": [ { "type": "null" }, { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } ] },
+    "checkpoint": { "enum": ["Scope", "Plan", "Review", "Accept", "Release", "Learn"] },
+    "decision": { "enum": ["approved", "rejected", "changes-requested"] },
+    "level": { "enum": ["Light", "Standard", "Heavy", "Critical"] },
+    "evidence": { "type": "array", "items": { "type": "string" } },
+    "aspect": { "enum": ["security", "second-human"] },
+    "control": { "type": "string" },
+    "pattern": { "type": "string", "pattern": "^SCP-\\d{3,}$" },
+    "supersedes": { "type": "integer", "minimum": 1 },
+    "text": { "type": "string", "maxLength": 500 },
+    "spec_version": { "type": "string" },
+    "deployed_ref": { "type": "string" },
+    "deployment_id": { "type": "string" },
+    "environment": { "type": "string" }
+  },
+  "allOf": [
+    { "if": { "properties": { "event": { "enum": ["level_confirmed", "decided", "released", "correction"] } } },
+      "then": { "properties": { "by": { "pattern": "^human:" } } } },
+    { "if": { "properties": { "event": { "const": "requested" } } }, "then": { "required": ["checkpoint"] } },
+    { "if": { "properties": { "event": { "const": "decided" } } }, "then": { "required": ["checkpoint", "decision"] } },
+    { "if": { "properties": { "event": { "enum": ["opened", "level_confirmed"] } } }, "then": { "required": ["level"] } },
+    { "if": { "properties": { "event": { "const": "correction" } } }, "then": { "required": ["supersedes", "text"] } },
+    { "if": { "properties": { "event": { "const": "released" } } }, "then": { "required": ["spec_version", "deployed_ref", "deployment_id", "environment"] } }
+  ]
+}

@@ -1,0 +1,11 @@
+# Changelog
+
+## 0.1.0 — 2026-10-31 (unreleased)
+
+- Method documents `docs/01`–`04` from package v0.1.
+- Drafts: `docs/05-request-driven-development.md`, `docs/06-packs.md`.
+- Reference framework 2.0 in `docs/reference/`.
+- Kernel JSON Schemas for `context.json`, record lines and `meshikah.yaml`.
+- Kernel templates; `software` pack; `finance` pack draft.
+- `mshkh` CLI skeleton (Python): argument parsing and exit codes only; every command reports "not implemented".
+- Repository dogfooding: library, decisions DEC-001 to DEC-004, questions Q-001 to Q-003, first card MSH-1.

@@ -1,15 +1,52 @@
-- 👋 Hi, I'm @Meshikah, a passionate developer with a keen interest in leveraging technology to create innovative solutions.
+# MeshikahAI
 
-- 👀 I’m interested in exploring the realms of software development, with a focus on cutting-edge technologies and DevOps practices.
+**Request-driven context engineering for people who work with AI agents.**
 
-- 🌱 I'm currently deepening my knowledge and expertise in cloud technologies, containerization, and continuous integration/delivery pipelines, with a specific focus on CRM applications.
+MeshikahAI is a working method plus a small toolchain. Every piece of AI-assisted work starts as a **request** and becomes a **work card**. For each card it answers three questions:
 
-- 💞️ I’m looking to collaborate on open-source projects that aim to make a positive impact on the developer community and beyond.
+1. **What should the agent read?** Exactly the context the request needs, and nothing stale or unrelated.
+2. **What may it change?** A declared set of files and actions, checked before and after.
+3. **Who decided it was done, and on what evidence?** A human, recorded, with proof attached.
 
-- 📫 How to reach me: Feel free to connect with me on LinkedIn [here](https://www.linkedin.com/in/meshikah), or drop me an email at [meshikah@icloud.com](mailto:meshikah@icloud.com).
+It started as context management for software teams. The kernel is domain-agnostic, so the same method can run other kinds of projects through **packs**: software engineering first, personal finance next.
 
-- 😄 Pronouns: He/Him
+## The shape
 
-- 🐶 Fun fact:  I run an organization dedicated to training and finding loving homes for pitbull dogs.
+```text
+REQUEST ──▶ WORK CARD (work/<KEY>/) ──appends──▶ RECORD (record.jsonl)
+               │   ▲                               human decisions, append-only
+     points to │   │ promotes back (human, via Learn)
+               ▼   │
+            LIBRARY (library/)  — durable truth, one copy
+```
 
-- 🚀 Currently, I'm creating Meshikah Lifestyle an Agile "Software Development" practice for personal development, implementing a lifestyle based on the Software Development Lifecycle (SDLC) with 2-week sprints for continuous personal growth. Excited to share and learn from others on this journey!
+| Concept | What it is |
+|---|---|
+| **Library** | The one place durable knowledge lives |
+| **Work card** | One folder per request: the delta, the acceptance contract, the evidence |
+| **Record** | Append-only log of requests and human decisions for a card |
+| **Pack** | Domain configuration on top of the kernel: templates, risk signals, checkpoint meanings, checks |
+
+## Repository map
+
+| Path | What's there |
+|---|---|
+| [`docs/`](docs/) | The method: principles, operating model, runtime, CLI MVP, request-driven development, packs |
+| [`docs/reference/`](docs/reference/) | Full reference framework 2.0 (Standard, Model, Operating System, sub-systems, CLI spec) |
+| [`kernel/schemas/`](kernel/schemas/) | JSON Schemas for `context.json`, `record.jsonl` lines and `meshikah.yaml` |
+| [`templates/`](templates/) | Kernel templates: `MESHIKAH.md` and a work card |
+| [`packs/`](packs/) | Domain packs: `software` (default), `finance` (draft) |
+| [`cli/`](cli/) | The `mshkh` command-line tool (Python, skeleton only) |
+| [`bindings/`](bindings/) | Tool bindings; Claude Code first |
+| [`examples/`](examples/) | Demo repositories with synthetic data only |
+| [`library/`, `work/`, `archive/`](library/index.md) | This repository's own development, run with MeshikahAI |
+
+This repository is **dogfooded**: its own work is tracked as cards in `work/`, starting with [`MSH-1`](work/MSH-1/card.md).
+
+## Status
+
+Version 0.1, draft. Method documents, templates, schemas and a CLI skeleton. **No `mshkh` command is implemented yet**; every command in `docs/04-cli-mvp.md` is a contract to build and test. See [`ROADMAP.md`](ROADMAP.md).
+
+## License
+
+© 2026 Armando. All rights reserved until a license is chosen. See [`LICENSE.md`](LICENSE.md).

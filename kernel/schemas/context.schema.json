@@ -1,0 +1,33 @@
+{
+  "$id": "https://meshikah.ai/schemas/context.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeshikahAI work card context",
+  "description": "Pointers for one work card: what to load and what may change. A pointer is not a permission.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["key", "title", "level", "data_class", "library", "source", "may_change", "tests"],
+  "properties": {
+    "key": { "type": "string", "pattern": "^[A-Z][A-Z0-9]+-\\d+$" },
+    "title": { "type": "string", "minLength": 1 },
+    "level": { "enum": ["Light", "Standard", "Heavy", "Critical"] },
+    "data_class": { "enum": ["Public", "Internal", "Confidential", "Regulated"] },
+    "library": { "type": "array", "items": { "$ref": "#/$defs/path" }, "uniqueItems": true },
+    "source": { "type": "array", "items": { "$ref": "#/$defs/path" }, "uniqueItems": true },
+    "may_change": { "type": "array", "items": { "$ref": "#/$defs/path" }, "uniqueItems": true },
+    "tests": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "retrieve": {
+      "description": "Live metadata to retrieve (Type:Member). Still needs authorization.",
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[A-Za-z]+:.+$" },
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "path": {
+      "description": "Repository-relative path or glob; never absolute, never into archive/ unless the card is about history (checked by mshkh lint).",
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "^(/|[A-Za-z]:|\\.\\./)" }
+    }
+  }
+}

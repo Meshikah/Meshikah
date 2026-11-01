@@ -1,0 +1,25 @@
+name: software
+version: "0.1"
+status: pilot
+description: Building software with AI coding agents. Proven by hand in the Docs Hub pilot under earlier names.
+default_data_class: Internal
+allowed_data_classes: [Public, Internal, Confidential, Regulated]
+level_signals:
+  Light: [typo or comment, docs-only change, one-line configuration]
+  Standard: [one component, clear acceptance, no schema or security impact]
+  Heavy: [several components, data-contract or schema change, unclear requirements, cross-team dependency]
+  Critical: [security or permissions, sharing or field-level access, regulated data, integrations, migrations, destructive change, production-impacting configuration]
+checkpoints:
+  Scope: Product approver confirms the card is understood and bounded, with testable acceptance
+  Plan: Architecture approver confirms files to touch, files not to touch, and the test map
+  Review: Owner confirms the diff matches the plan; tests and lint pass
+  Accept: Product and quality approvers confirm every criterion has a result and proof
+  Release: Owner and release approver allow this exact package to deploy
+  Learn: Library owner accepts promotions and lessons
+templates: {}          # uses the kernel templates in templates/work-card/
+checks: []
+never_store:
+  - secrets, tokens, keys, connection strings
+  - production data extracts
+  - health records, payment card data
+  - customer personal data (use sanitized identifiers)

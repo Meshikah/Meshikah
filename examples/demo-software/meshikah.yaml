@@ -1,0 +1,3 @@
+version: 1
+pack: software
+data_classes: [Public, Internal]

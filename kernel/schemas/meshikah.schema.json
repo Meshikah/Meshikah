@@ -1,0 +1,46 @@
+{
+  "$id": "https://meshikah.ai/schemas/meshikah.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "meshikah.yaml",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version"],
+  "properties": {
+    "version": { "const": 1 },
+    "pack": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "paths": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "library": { "type": "string" }, "work": { "type": "string" },
+        "archive": { "type": "string" }, "index": { "type": "string" }
+      }
+    },
+    "profile": { "enum": ["native", "docs-hub-flat", "docs-hub-nested"] },
+    "key_pattern": { "type": "string" },
+    "data_classes": { "type": "array", "items": { "enum": ["Public", "Internal", "Confidential", "Regulated"] }, "uniqueItems": true, "minItems": 1 },
+    "instruction_budget": { "type": "integer", "minimum": 1, "maximum": 500 },
+    "instruction_files": { "type": "array", "items": { "type": "string" } },
+    "tracker": {
+      "type": "object",
+      "properties": {
+        "system": { "type": "string" },
+        "state_map": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string" } } }
+      }
+    },
+    "change_patterns": { "type": "string" },
+    "service_targets_days": {
+      "type": "object", "additionalProperties": false,
+      "patternProperties": { "^(Scope|Plan|Review|Accept|Release|Learn)$": { "type": "number", "minimum": 0 } }
+    },
+    "checks": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "blocking": { "type": "array", "items": { "$ref": "#/$defs/check" } },
+        "advisory": { "type": "array", "items": { "$ref": "#/$defs/check" } }
+      }
+    }
+  },
+  "$defs": {
+    "check": { "enum": ["card-files", "acceptance", "context", "archive-refs", "links", "record", "sensitive", "budget", "duplicates", "release-trace"] }
+  }
+}

@@ -1,0 +1,31 @@
+name: finance
+version: "0.1"
+status: draft
+description: Personal finance projects (budgets, debt, savings, purchases, investments) run as requests and cards.
+key_prefix: FIN
+default_data_class: Confidential
+allowed_data_classes: [Confidential, Regulated]
+level_signals:
+  Light: [monthly budget review, categorizing expenses, reading or summarizing a statement]
+  Standard: [a decision under one month of savings, changing a recurring subscription, a new savings rule]
+  Heavy: [a decision over one month of savings, choosing between financial products, a multi-month plan]
+  Critical: [taking on or restructuring debt, investments, tax filings, anything involving identity documents or account credentials, any irreversible transfer]
+checkpoints:
+  Scope: You confirm the goal, the constraints (amount, deadline, risk tolerance) and how you will know it worked
+  Plan: You confirm the options compared, the numbers used, and what you will not do
+  Review: You check the analysis against the sources (statements, offers), not against the agent's summary
+  Accept: You confirm every criterion has a result and proof, or is NOT VERIFIED
+  Release: You, and only you, move money, sign, or submit. The agent never executes a transaction
+  Learn: You decide what becomes a durable rule or lesson in your financial library
+templates:
+  card: packs/finance/templates/card.md
+  plan: packs/finance/templates/plan.md
+  evidence: packs/finance/templates/evidence.md
+  context: packs/finance/templates/context.json
+checks: [no-account-numbers, no-identity-numbers, amounts-have-source]
+never_store:
+  - full account, card or CLABE numbers (last four digits at most)
+  - passwords, PINs, tokens, security answers
+  - identity document numbers (RFC, CURP, INE, passport, tax IDs)
+  - raw bank statements or screenshots with personal data
+  - other people's personal financial details

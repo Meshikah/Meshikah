@@ -1,0 +1,17 @@
+# MeshikahAI configuration for this repository (see docs/03-runtime.md and kernel/schemas/meshikah.schema.json)
+version: 1
+pack: software
+paths:
+  library: library
+  work: work
+  archive: archive
+  index: library/index.md
+profile: native
+key_pattern: "^[A-Z][A-Z0-9]+-\\d+$"
+data_classes: [Public, Internal]
+instruction_budget: 150
+instruction_files: [MESHIKAH.md, CLAUDE.md]
+service_targets_days: {Scope: 1, Plan: 2, Review: 0, Accept: 2, Learn: 5}
+checks:
+  blocking: [context, links, record, sensitive]
+  advisory: [card-files, acceptance, budget, archive-refs, duplicates]

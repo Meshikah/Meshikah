@@ -1,0 +1,10 @@
+{
+  "key": "{{KEY}}",
+  "title": "{{TITLE}}",
+  "level": "{{LEVEL}}",
+  "data_class": "Confidential",
+  "library": ["library/index.md"],
+  "source": [],
+  "may_change": [],
+  "tests": []
+}

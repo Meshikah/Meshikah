@@ -1,0 +1,10 @@
+{
+  "key": "DEMO-1",
+  "title": "Retry failed sync calls",
+  "level": "Standard",
+  "data_class": "Internal",
+  "library": ["library/index.md"],
+  "source": ["src/sync/client.ts"],
+  "may_change": ["src/sync/client.ts", "test/sync/*.test.ts"],
+  "tests": ["test/sync/client.test.ts"]
+}

@@ -1,0 +1,30 @@
+{
+  "$id": "https://meshikah.ai/schemas/pack.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeshikahAI pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "version", "status", "default_data_class", "allowed_data_classes", "level_signals", "checkpoints", "never_store"],
+  "properties": {
+    "name": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "version": { "type": "string" },
+    "status": { "enum": ["draft", "pilot", "stable"] },
+    "description": { "type": "string" },
+    "key_prefix": { "type": "string", "pattern": "^[A-Z][A-Z0-9]*$" },
+    "default_data_class": { "$ref": "#/$defs/dataClass" },
+    "allowed_data_classes": { "type": "array", "items": { "$ref": "#/$defs/dataClass" }, "minItems": 1, "uniqueItems": true },
+    "level_signals": {
+      "type": "object", "additionalProperties": false,
+      "required": ["Light", "Standard", "Heavy", "Critical"],
+      "patternProperties": { "^(Light|Standard|Heavy|Critical)$": { "type": "array", "items": { "type": "string" }, "minItems": 1 } }
+    },
+    "checkpoints": {
+      "type": "object", "additionalProperties": false,
+      "patternProperties": { "^(Scope|Plan|Review|Accept|Release|Learn)$": { "type": "string" } }
+    },
+    "templates": { "type": "object", "additionalProperties": { "type": "string" } },
+    "checks": { "type": "array", "items": { "type": "string" } },
+    "never_store": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+  },
+  "$defs": { "dataClass": { "enum": ["Public", "Internal", "Confidential", "Regulated"] } }
+}

@@ -1,0 +1,4 @@
+version: 1
+pack: finance
+key_pattern: "^FIN-\\d+$"
+data_classes: [Confidential]
