@@ -1,1 +1,3 @@
 {"at":"2026-11-01T01:30:00Z","card":"MSH-1","event":"opened","by":"agent:builder","level":"Standard","text":"Opened during repository scaffolding; level proposed, awaiting human confirmation.","prev":null}
+{"at":"2026-11-01T15:49:57Z","card":"MSH-1","event":"level_confirmed","by":"human:armando","level":"Light","prev":"sha256:521743460835cc55c6b17dfa7a394f0dad48425fc34eb8e02ad2112c4acc6ffb"}
+{"at":"2026-11-01T15:49:57Z","card":"MSH-1","event":"decided","checkpoint":"Review","decision":"approved","by":"human:armando","prev":"sha256:441e1fe40f9b75cd4d9c92595fd504161a51ae842847e30d2d468335acf9d4e0"}

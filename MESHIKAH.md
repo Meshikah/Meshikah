@@ -7,7 +7,7 @@ You are working in the MeshikahAI product repository. It is developed with its o
 2. Load only what `context.json` lists. If you need more, say what and why before reading it.
 3. Change only files in `may_change`. Anything else: stop and ask.
 4. Run the checks and write the real output to `evidence.md`. If something wasn't checked, write `NOT VERIFIED`.
-5. You may request a checkpoint (append a `requested` event, or `mshkh request` once it exists). Never record a decision.
+5. You may request a checkpoint (append a `requested` event, or `mshkh request` once it exists). Never decide on your own: do not write `decided`, `level_confirmed`, `released` or `correction` events unless a human dictates the exact event in the current session (card, event type, content, who). Then transcribe it as dictated, add nothing, infer nothing, and say in your report that you wrote it at their dictation.
 6. Never put secrets, personal data, real financial data or regulated data in any file, prompt or log. Examples are synthetic.
 7. End every session with: what changed, which files, which tests passed or failed, and what is still open.
 
