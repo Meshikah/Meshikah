@@ -1,6 +1,6 @@
 # MSH-2 · Implement `mshkh` 0.2: `init`, `new`, `lint`
 
-- Level: Standard (proposed; a human confirms it)
+- Level: Standard (confirmed by human:armando, 2026-11-01)
 - Highest data class: Internal
 - Owner: Armando
 - Type: story
